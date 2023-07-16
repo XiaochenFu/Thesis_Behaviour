@@ -48,10 +48,10 @@ for i = 1:length(parts)
         ReverseStimuli = 1;
     end
 end
-if ~ReverseStimuli && ~Latency_stated && all(Intensity(:)==0)
-    %     DelayLatency = "20msvs120ms";
+if ~ReverseStimuli && ~Latency_stated && any(Intensity(:)>0) % light detection task 
+        DelayLatency = "20msvs20ms";
     %     DelayLatency = "80msvs80ms";
-    DelayLatency = "20msvs20ms";
+
 end
 % create structure
 light_Info = struct('TrainingDate', TrainingDate, 'TrainingDays', TrainingDays, 'NumPulse', NumPulse, 'Intensity', Intensity, 'PulseWidth', PulseWidth, 'PulseFrequency', PulseFrequency, 'DelayLatency', DelayLatency, 'ReverseStimuli', ReverseStimuli);

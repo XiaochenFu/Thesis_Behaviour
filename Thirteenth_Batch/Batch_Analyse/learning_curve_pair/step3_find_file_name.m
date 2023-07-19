@@ -45,11 +45,13 @@ for mi = 1:length(Mouse_list)
 
     %   loop for each light stimuli
     for si = 1:length(Stimuli_list)
+        StimuliName = Stimuli_list{si};
+
         Light_Stim_Raw_FileName = {};
         Light_Preprecessed_Mat_FileName = {};
         Odour_Stim_Raw_FileName = {};
         Odour_Preprecessed_Mat_FileName = {};
-        StimuliName = Stimuli_list{si};
+        
         %       change the stimuli name to restrictions
         StimuliInfo0 = fun_StimuliName_2_StimuliInfo(StimuliName, BatchID);
         T_stim = struct2table(StimuliInfo0);
@@ -68,23 +70,23 @@ for mi = 1:length(Mouse_list)
                 fileList = find_raw_csv_files(fullfile(buckets_path,MouseID), A_sub(lfi).FileName);
                 Light_Stim_Raw_FileName = [Light_Stim_Raw_FileName; fileList];
                 %       find the name of the .mat files in the preprocessed folder
-                matchedFiles = find_mat_date(fullfile(Batch_Path,MouseID,'Behaviour_Preprocess'),  A_sub(lfi).FileName);
+                matchedFiles = find_mat_date(fullfile(Batch_Path,MouseID,'Behaviour_Accuracy'),  A_sub(lfi).FileName);
                 Light_Preprecessed_Mat_FileName = [Light_Preprecessed_Mat_FileName; matchedFiles];
             end
 
 
             %       find the filename in the 'recording' folder
-            OdourfileName = find_odour_before_stim(MouseID, A_sub(lfi).FileName, T0);
+            OdourfileName = find_odour_before_stim(MouseID, A_sub(lfi).FileName, T0)
             %       find the odour stimuli before the light stimuli (maybe not)
 
 
             for lfi = 1:length(OdourfileName)
                 %       find the filename in the buckets based on the filename in the 'recording'
-                matchedFiles = find_mat_date(fullfile(Batch_Path,MouseID,'Behaviour_Preprocess'),  OdourfileName);
+                fileList = find_raw_csv_files(fullfile(buckets_path,MouseID), OdourfileName{lfi});
                 Odour_Stim_Raw_FileName = [Odour_Stim_Raw_FileName; fileList];
                 %       find the name of the .mat files in the preprocessed folder
-                matchedFiles = find_mat_date(fullfile(Batch_Path,MouseID,'Behaviour_Preprocess'),  A_sub(lfi).FileName);
-                Odour_Preprecessed_Mat_FileName = [Odour_Preprecessed_Mat_FileName; fileList];
+                matchedFiles = find_mat_date(fullfile(Batch_Path,MouseID,'Behaviour_Accuracy'),  OdourfileName{lfi});
+                Odour_Preprecessed_Mat_FileName = [Odour_Preprecessed_Mat_FileName; matchedFiles];
             end
             result_path = fullfile(currentDir,MouseID,'FileName');
             mkdir(result_path)

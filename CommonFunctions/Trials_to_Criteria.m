@@ -22,6 +22,7 @@ FA = strcmp('FA',Response);
 test_method = getOr(criteria, "test_method", "dprime");
 num_trials_for_test = getOr(criteria, "num_trials_for_test", 40);
 num_trials_steps = getOr(criteria, "num_trials_steps", 10);
+drpime_function = getOr(criteria, "drpime_function", @Dprime_Loglinear_norm50);
 switch test_method
     case "accuracy"
         test_threshold = getOr(criteria, "test_threshold", 80);
@@ -51,7 +52,7 @@ for i = 1:window_steps:(total_length - window_width + 1)
                 break
             end
         case "dprime"
-            dP = Dprime_Loglinear_norm50(s_HIT,s_FA, s_Plus, s_Minus);
+            dP = drpime_function(s_HIT,s_FA, s_Plus, s_Minus);
             if dP>=test_threshold
                 num_trial_to_criterion = (i + window_width - 1);
                 break
